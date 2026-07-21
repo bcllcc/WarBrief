@@ -9,7 +9,7 @@ from warbrief.providers.media import DVIDSMediaProvider
 from warbrief.services.news import NewsService
 from warbrief.services.render import build_rights_manifest
 from warbrief.storage import Storage
-from warbrief.utils import canonical_url, jaccard, stable_id, title_tokens
+from warbrief.utils import _prepare_command, canonical_url, jaccard, stable_id, title_tokens
 
 
 def make_settings(tmp_path: Path, **overrides: object) -> Settings:
@@ -37,6 +37,21 @@ def test_url_tokens_and_stable_id() -> None:
     a = title_tokens("NATO launches new military exercise")
     b = title_tokens("New NATO military exercise begins")
     assert jaccard(a, b) > 0.3
+
+
+def test_windows_ffmpeg_filter_drive_path_is_escaped() -> None:
+    command = [
+        "ffmpeg",
+        "-i",
+        r"C:\WarBrief\visual.mp4",
+        "-filter_complex",
+        "[0:v]ass=C:/WarBrief/subtitles.ass[v]",
+        r"C:\WarBrief\video.mp4",
+    ]
+    prepared = _prepare_command(command, platform="nt")
+    assert prepared[2] == command[2]
+    assert prepared[4] == r"[0:v]ass=C\\:/WarBrief/subtitles.ass[v]"
+    assert prepared[5] == command[5]
 
 
 def test_storage_and_event_clustering(tmp_path: Path) -> None:
