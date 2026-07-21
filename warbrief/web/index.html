@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WarBrief · 军事资讯自动成片工厂</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark">WB</div>
+        <div>
+          <div class="eyebrow">NEWS-TO-VIDEO COMPILER</div>
+          <h1>WarBrief</h1>
+          <p>军事资讯自动成片工厂 · V0.1</p>
+        </div>
+      </div>
+      <div id="statusChips" class="status-chips"></div>
+    </header>
+
+    <main class="workspace">
+      <section class="left-column">
+        <div class="panel panel-news">
+          <div class="panel-header">
+            <div>
+              <span class="section-index">01</span>
+              <h2>今日候选事件</h2>
+              <p>RSS / GDELT 自动采集、去重与聚类</p>
+            </div>
+            <button id="refreshButton" class="button button-secondary">刷新外网新闻</button>
+          </div>
+          <div id="refreshNotice" class="notice hidden"></div>
+          <div id="events" class="event-list">
+            <div class="empty-state">正在载入事件流……</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header compact">
+            <div>
+              <span class="section-index">02</span>
+              <h2>手工事件入口</h2>
+              <p>用于快速测试一条指定新闻</p>
+            </div>
+          </div>
+          <form id="manualForm" class="manual-form">
+            <label>
+              <span>事件标题</span>
+              <input id="manualTitle" required placeholder="例如：某型无人机完成新一轮公开测试" />
+            </label>
+            <label>
+              <span>已确认事实摘要</span>
+              <textarea id="manualSummary" rows="4" placeholder="只填写已经确认、可以进入口播的公开事实"></textarea>
+            </label>
+            <label>
+              <span>来源链接（可选）</span>
+              <input id="manualUrl" type="url" placeholder="https://..." />
+            </label>
+            <button class="button button-primary" type="submit">启动完整成片流程</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="right-column">
+        <div class="panel production-panel">
+          <div class="panel-header">
+            <div>
+              <span class="section-index">03</span>
+              <h2>生产任务</h2>
+              <p>事实包 → 文稿 → 配音 → 素材 → 时间线 → MP4</p>
+            </div>
+          </div>
+          <div id="jobEmpty" class="job-empty">
+            <div class="radar">
+              <div class="radar-sweep"></div>
+              <div class="radar-dot"></div>
+            </div>
+            <h3>尚未启动任务</h3>
+            <p>从左侧选择一个事件，系统会执行完整流水线。</p>
+          </div>
+          <div id="jobView" class="job-view hidden">
+            <div class="job-meta">
+              <div>
+                <span class="label">JOB</span>
+                <strong id="jobId">—</strong>
+              </div>
+              <span id="jobStatus" class="job-status">QUEUED</span>
+            </div>
+            <h3 id="jobTitle">正在读取事件</h3>
+            <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+            <div class="progress-row">
+              <span id="jobStage">queued</span>
+              <span id="jobProgress">0%</span>
+            </div>
+            <div id="jobError" class="error-box hidden"></div>
+            <div id="videoWrap" class="video-wrap hidden">
+              <video id="videoPlayer" controls playsinline></video>
+              <div class="download-row">
+                <a id="downloadVideo" class="button button-primary" href="#">下载 MP4</a>
+                <a id="downloadArtifacts" class="button button-secondary" href="#">下载完整生产包</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel history-panel">
+          <div class="panel-header compact">
+            <div>
+              <span class="section-index">04</span>
+              <h2>最近任务</h2>
+            </div>
+            <button id="reloadJobs" class="icon-button" title="刷新">↻</button>
+          </div>
+          <div id="jobs" class="job-list"></div>
+        </div>
+
+        <div class="governance-note">
+          <strong>版权门禁已启用</strong>
+          <p>新闻链接仅作为事实发现源。只有 DVIDS、Wikimedia 或本地生成素材通过许可检查后，才会进入渲染时间线。</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
