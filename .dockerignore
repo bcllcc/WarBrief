@@ -1,0 +1,15 @@
+.git
+.github
+.env
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+data/runtime
+outputs
+*.mp4
+*.wav
+*.mp3
+*.zip

@@ -1,0 +1,29 @@
+[
+  {
+    "source_name": "WarBrief Demo Wire",
+    "title": "多国海军在北大西洋举行联合防空与反潜演练",
+    "summary": "多个参演单位完成编队防空、反潜搜索和海上补给科目。公开信息显示，演练重点是跨军种协同与通信互操作性。",
+    "content": "多个参演单位完成编队防空、反潜搜索和海上补给科目。公开信息显示，演练重点是跨军种协同与通信互操作性。主办方称，相关活动属于既定训练安排。",
+    "url": "https://example.invalid/demo/naval-exercise",
+    "language": "zh",
+    "source_country": "Demo"
+  },
+  {
+    "source_name": "WarBrief Demo Wire",
+    "title": "新一批无人侦察系统完成高海拔环境测试",
+    "summary": "测试涵盖长航时飞行、复杂气象条件下的数据链稳定性以及多传感器协同。项目方尚未公布具体列装时间。",
+    "content": "测试涵盖长航时飞行、复杂气象条件下的数据链稳定性以及多传感器协同。项目方尚未公布具体列装时间，公开材料也没有披露全部性能参数。",
+    "url": "https://example.invalid/demo/drone-test",
+    "language": "zh",
+    "source_country": "Demo"
+  },
+  {
+    "source_name": "WarBrief Demo Wire",
+    "title": "防务部门公布新一轮远程防空系统训练画面",
+    "summary": "公开画面展示了雷达展开、目标跟踪和模拟拦截流程。训练结果和装备具体参数未在通报中披露。",
+    "content": "公开画面展示了雷达展开、目标跟踪和模拟拦截流程。训练结果和装备具体参数未在通报中披露，因此不能据此判断系统的真实作战效能。",
+    "url": "https://example.invalid/demo/air-defense",
+    "language": "zh",
+    "source_country": "Demo"
+  }
+]

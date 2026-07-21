@@ -1,0 +1,11 @@
+services:
+  warbrief:
+    build: .
+    container_name: warbrief
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/runtime:/app/data/runtime
+    restart: unless-stopped
