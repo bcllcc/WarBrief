@@ -26,5 +26,20 @@ jobs:
           ruff check .
           ruff format --check .
       - name: Test native Windows pipeline
+        id: pytest
         shell: powershell
-        run: pytest -q
+        continue-on-error: true
+        run: |
+          pytest -q --tb=long 2>&1 | Tee-Object -FilePath pytest-windows.log
+          "exit_code=$LASTEXITCODE" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      - name: Upload Windows test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-pytest-log
+          path: pytest-windows.log
+          if-no-files-found: error
+      - name: Fail when Windows tests fail
+        if: steps.pytest.outputs.exit_code != '0'
+        shell: powershell
+        run: exit 1
