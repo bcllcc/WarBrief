@@ -125,9 +125,38 @@ def parse_datetime(value: str | None) -> datetime:
         return datetime.now(UTC)
 
 
+_WINDOWS_FILTER_DRIVE_RE = re.compile(r"(?<!\\)(?P<drive>[A-Za-z]):(?=/)")
+
+
+def _prepare_command(command: list[str], platform: str | None = None) -> list[str]:
+    """Prepare subprocess arguments while preserving shell-free execution.
+
+    FFmpeg parses filter option values and the outer filtergraph separately.
+    On Windows an absolute drive path inside ``-vf``/``-filter_complex`` must
+    therefore escape the drive colon twice (``C\\\\:/...``). Normal input and
+    output paths are separate argv items and must not be altered.
+    """
+
+    platform = platform or __import__("os").name
+    prepared = list(command)
+    if platform != "nt" or not prepared:
+        return prepared
+    executable = Path(prepared[0]).name.lower()
+    if executable not in {"ffmpeg", "ffmpeg.exe"}:
+        return prepared
+    filter_flags = {"-filter_complex", "-filter:v", "-vf"}
+    for index, value in enumerate(prepared[:-1]):
+        if value not in filter_flags:
+            continue
+        prepared[index + 1] = _WINDOWS_FILTER_DRIVE_RE.sub(
+            lambda match: f"{match.group('drive')}\\\\:", prepared[index + 1]
+        )
+    return prepared
+
+
 def run_command(command: list[str], *, timeout: int = 300) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        command,
+        _prepare_command(command),
         check=True,
         capture_output=True,
         text=True,
